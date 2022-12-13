@@ -62,6 +62,10 @@
 #define MALLOC_OVERHEAD  8
 #endif
 
+/* worthless patch start */
+#ifndef WORTHLESS_PATCHES
+/* worthless patch end */
+
 #if !defined(_WIN32)
 /* define it if printf uses the RNDN rounding mode instead of RNDNA */
 #define CONFIG_PRINTF_RNDN
@@ -72,6 +76,10 @@
 #if !defined(EMSCRIPTEN)
 #define CONFIG_ATOMICS
 #endif
+
+/* worthless patch start */
+#endif
+/* worthless patch end */
 
 #if !defined(EMSCRIPTEN)
 /* enable stack limitation */
@@ -1684,6 +1692,10 @@ static inline size_t js_def_malloc_usable_size(void *ptr)
     return 0;
 #elif defined(__linux__)
     return malloc_usable_size(ptr);
+/* worthless patch start */
+#elif defined WORTHLESS_PATCHES
+    return 0;
+/* worthless patch end */
 #else
     /* change this to `return 0;` if compilation fails */
     return malloc_usable_size(ptr);
@@ -1758,6 +1770,10 @@ static const JSMallocFunctions def_malloc_funcs = {
     NULL,
 #elif defined(__linux__)
     (size_t (*)(const void *))malloc_usable_size,
+/* worthless patch start */
+#elif defined WORTHLESS_PATCHES
+    NULL,
+/* worthless patch end */
 #else
     /* change this to `NULL,` if compilation fails */
     malloc_usable_size,

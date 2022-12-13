@@ -146,6 +146,10 @@ static inline size_t js_trace_malloc_usable_size(void *ptr)
     return malloc_size(ptr);
 #elif defined(_WIN32)
     return _msize(ptr);
+/* worthless patch start */
+#elif defined WORTHLESS_PATCHES
+    return 0;
+/* worthless patch end */
 #elif defined(EMSCRIPTEN)
     return 0;
 #elif defined(__linux__)
